@@ -1,4 +1,4 @@
-package com.insertProjetName.api.utils;
+package fr.sleafy.api.utils;
 
 import lombok.Getter;
 import lombok.Setter;

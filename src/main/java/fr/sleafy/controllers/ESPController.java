@@ -1,7 +1,7 @@
-package com.insertProjetName.controllers;
+package fr.sleafy.controllers;
 
-import com.insertProjetName.api.ESP;
-import com.insertProjetName.dao.ESPDao;
+import fr.sleafy.api.ESP;
+import fr.sleafy.dao.ESPDao;
 
 import java.util.List;
 import java.util.UUID;

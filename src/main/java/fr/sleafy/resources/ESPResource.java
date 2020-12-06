@@ -1,17 +1,15 @@
-package com.insertProjetName.resources;
+package fr.sleafy.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.insertProjetName.api.ESP;
-import com.insertProjetName.api.Maintener;
-import com.insertProjetName.controllers.ESPController;
-import com.insertProjetName.dao.ESPDao;
+import fr.sleafy.api.ESP;
+import fr.sleafy.controllers.ESPController;
+import fr.sleafy.dao.ESPDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
-import java.util.UUID;
 
 @Path("/esp")
 @Produces(MediaType.APPLICATION_JSON)

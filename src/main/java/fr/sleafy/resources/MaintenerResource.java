@@ -1,7 +1,7 @@
-package com.insertProjetName.resources;
+package fr.sleafy.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.insertProjetName.api.Maintener;
+import fr.sleafy.api.Maintener;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 

@@ -1,9 +1,9 @@
-package com.insertProjetName;
+package fr.sleafy;
 
-import com.insertProjetName.dao.ESPDao;
-import com.insertProjetName.resources.ESPResource;
-import com.insertProjetName.resources.MaintenerResource;
-import com.insertProjetName.services.DBService;
+import fr.sleafy.dao.ESPDao;
+import fr.sleafy.resources.ESPResource;
+import fr.sleafy.resources.MaintenerResource;
+import fr.sleafy.services.DBService;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;

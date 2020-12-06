@@ -1,28 +1,28 @@
-package com.insertProjetName.api;
+package fr.sleafy.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class Maintener {
 
-    @NotEmpty
+    @NotNull
     @JsonProperty
     private String mail;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty
     private String firstName;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty
     private String lastName;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty
     private String pseudo;
 }

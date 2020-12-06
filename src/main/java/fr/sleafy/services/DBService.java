@@ -1,7 +1,7 @@
-package com.insertProjetName.services;
+package fr.sleafy.services;
 
-import com.insertProjetName.api.utils.Database;
-import com.insertProjetName.api.utils.StmtParams;
+import fr.sleafy.api.utils.Database;
+import fr.sleafy.api.utils.StmtParams;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;

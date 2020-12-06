@@ -1,8 +1,8 @@
-package com.insertProjetName;
+package fr.sleafy;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.insertProjetName.api.utils.Database;
-import com.insertProjetName.api.Maintener;
+import fr.sleafy.api.utils.Database;
+import fr.sleafy.api.Maintener;
 import io.dropwizard.Configuration;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import lombok.Getter;

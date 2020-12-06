@@ -1,4 +1,4 @@
-package com.insertProjetName.api;
+package fr.sleafy.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

@@ -1,24 +1,24 @@
-package com.insertProjetName.api.utils;
+package fr.sleafy.api.utils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class Database {
 
     @JsonProperty
-    @NotEmpty
+    @NotNull
     private String url;
 
     @JsonProperty
-    @NotEmpty
+    @NotNull
     private String user;
 
     @JsonProperty
-    @NotEmpty
+    @NotNull
     private String password;
 }

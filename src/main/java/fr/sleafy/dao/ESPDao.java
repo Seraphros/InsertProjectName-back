@@ -1,8 +1,8 @@
-package com.insertProjetName.dao;
+package fr.sleafy.dao;
 
-import com.insertProjetName.api.ESP;
-import com.insertProjetName.api.utils.StmtParams;
-import com.insertProjetName.services.DBService;
+import fr.sleafy.api.ESP;
+import fr.sleafy.api.utils.StmtParams;
+import fr.sleafy.services.DBService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ public class ESPDao {
     }
 
     public ESP insertESP(ESP esp) {
-        String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, nom) VALUES (NULL, ?, ?, NULL)";
+        String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, name) VALUES (NULL, ?, ?, NULL)";
         List<StmtParams> paramsList = new ArrayList<>();
         paramsList.add(new StmtParams(1, esp.getUserId()));
         paramsList.add(new StmtParams(2, esp.getUuid()));
