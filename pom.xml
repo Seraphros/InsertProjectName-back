@@ -11,6 +11,8 @@
     <properties>
         <dropwizard.version>2.0.16</dropwizard.version>
         <lombok.version>1.18.16</lombok.version>
+        <swagger.version>2.0.0-1</swagger.version>
+        <mariadbConnector.version>1.2.0</mariadbConnector.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -28,6 +30,18 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.smoketurner</groupId>
+            <artifactId>dropwizard-swagger</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadbConnector.version}</version>
         </dependency>
     </dependencies>
 

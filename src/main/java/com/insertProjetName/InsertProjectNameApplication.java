@@ -1,9 +1,14 @@
 package com.insertProjetName;
 
+import com.insertProjetName.dao.ESPDao;
+import com.insertProjetName.resources.ESPResource;
 import com.insertProjetName.resources.MaintenerResource;
+import com.insertProjetName.services.DBService;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
 public class InsertProjectNameApplication extends Application<InsertProjetNameConfiguration> {
 
@@ -18,14 +23,26 @@ public class InsertProjectNameApplication extends Application<InsertProjetNameCo
 
     @Override
     public void initialize(Bootstrap<InsertProjetNameConfiguration> bootstrap) {
-        // nothing to do yet
+        bootstrap.addBundle(new SwaggerBundle<InsertProjetNameConfiguration>() {
+            @Override
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(InsertProjetNameConfiguration configuration) {
+                return configuration.swaggerBundleConfiguration;
+            }
+        });
     }
 
     @Override
     public void run(InsertProjetNameConfiguration configuration,
                     Environment environment) {
+
+        DBService dbService = new DBService(configuration.getDatabase());
+        ESPDao espDao = new ESPDao(dbService);
+
+
         final MaintenerResource maintenerResource = new MaintenerResource(configuration.getMaintenedBy());
+        final ESPResource espResource = new ESPResource(espDao);
 
         environment.jersey().register(maintenerResource);
+        environment.jersey().register(espResource);
     }
 }
