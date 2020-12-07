@@ -10,29 +10,29 @@ import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
-public class InsertProjectNameApplication extends Application<InsertProjetNameConfiguration> {
+public class SleafyBackApplication extends Application<SleafyBackConfiguration> {
 
     public static void main(String[] args) throws Exception {
-        new InsertProjectNameApplication().run(args);
+        new SleafyBackApplication().run(args);
     }
 
     @Override
     public String getName() {
-        return "InsertProjectNameApplication";
+        return "SleafyBackApplication";
     }
 
     @Override
-    public void initialize(Bootstrap<InsertProjetNameConfiguration> bootstrap) {
-        bootstrap.addBundle(new SwaggerBundle<InsertProjetNameConfiguration>() {
+    public void initialize(Bootstrap<SleafyBackConfiguration> bootstrap) {
+        bootstrap.addBundle(new SwaggerBundle<SleafyBackConfiguration>() {
             @Override
-            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(InsertProjetNameConfiguration configuration) {
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(SleafyBackConfiguration configuration) {
                 return configuration.swaggerBundleConfiguration;
             }
         });
     }
 
     @Override
-    public void run(InsertProjetNameConfiguration configuration,
+    public void run(SleafyBackConfiguration configuration,
                     Environment environment) {
 
         DBService dbService = new DBService(configuration.getDatabase());

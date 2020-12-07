@@ -96,7 +96,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>fr.sleafy.InsertProjectNameApplication</mainClass>
+                                    <mainClass>fr.sleafy.SleafyBackApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

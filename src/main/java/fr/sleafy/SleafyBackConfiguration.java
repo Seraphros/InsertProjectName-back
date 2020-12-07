@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @Getter
 @Setter
-public class InsertProjetNameConfiguration extends Configuration {
+public class SleafyBackConfiguration extends Configuration {
 
     @JsonProperty("swagger")
     public SwaggerBundleConfiguration swaggerBundleConfiguration;
