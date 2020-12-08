@@ -4,8 +4,11 @@ import com.codahale.metrics.annotation.Timed;
 import fr.sleafy.api.ESP;
 import fr.sleafy.controllers.ESPController;
 import fr.sleafy.dao.ESPDao;
+import fr.sleafy.security.User;
+import io.dropwizard.auth.Auth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -25,7 +28,7 @@ public class ESPResource {
     @PUT
     @Timed
     @ApiOperation(value = "Declare a new ESP")
-    public ESP declareESP(@QueryParam("userID") int userID) {
+    public ESP declareESP(@QueryParam("userID") int userID, @ApiParam(hidden = true) @Auth User user) {
         return espController.createNewESP(userID);
     }
 
