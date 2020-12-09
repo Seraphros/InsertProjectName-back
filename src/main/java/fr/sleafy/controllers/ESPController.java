@@ -1,6 +1,7 @@
 package fr.sleafy.controllers;
 
 import fr.sleafy.api.ESP;
+import fr.sleafy.api.utils.IDSecretKey;
 import fr.sleafy.dao.ESPDao;
 
 import java.util.List;
@@ -14,8 +15,9 @@ public class ESPController {
         this.espDao = espDao;
     }
 
-    public ESP createNewESP(int userId) {
-        return espDao.insertESP(new ESP(UUID.randomUUID().toString(), userId));
+    public IDSecretKey createNewESP(int userId) {
+        ESP espCreated = espDao.insertESP(new ESP(UUID.randomUUID().toString(), userId, UUID.randomUUID().toString()));
+        return new IDSecretKey(espCreated.getId(), espCreated.getUuid(), espCreated.getSecretKey());
     }
 
     public List<ESP> getUsersESP(int userId) {

@@ -2,6 +2,7 @@ package fr.sleafy.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import fr.sleafy.api.ESP;
+import fr.sleafy.api.utils.IDSecretKey;
 import fr.sleafy.controllers.ESPController;
 import fr.sleafy.dao.ESPDao;
 import fr.sleafy.security.User;
@@ -19,7 +20,7 @@ import java.util.List;
 @Api(value="/esp")
 public class ESPResource {
 
-    private ESPController espController;
+    private final ESPController espController;
 
     public ESPResource(ESPDao espDao) {
         this.espController = new ESPController(espDao);
@@ -28,7 +29,7 @@ public class ESPResource {
     @PUT
     @Timed
     @ApiOperation(value = "Declare a new ESP")
-    public ESP declareESP(@QueryParam("userID") int userID, @ApiParam(hidden = true) @Auth User user) {
+    public IDSecretKey declareESP(@QueryParam("userID") int userID) {
         return espController.createNewESP(userID);
     }
 
@@ -43,7 +44,7 @@ public class ESPResource {
     @Path("/{uuid}")
     @Timed
     @ApiOperation(value = "Retrieve ESP according to its UUID")
-    public ESP getESPfromUUID(@PathParam("uuid") String uuid) {
+    public ESP getESPfromUUID(@PathParam("uuid") String uuid, @ApiParam(hidden = true) @Auth User user) {
         return espController.getESPfromUUID(uuid);
     }
 

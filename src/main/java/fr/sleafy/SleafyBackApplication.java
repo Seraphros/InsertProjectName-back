@@ -50,7 +50,7 @@ public class SleafyBackApplication extends Application<SleafyBackConfiguration> 
         final ESPResource espResource = new ESPResource(espDao);
 
         environment.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
-                .setAuthenticator(new AppBasicAuthenticator())
+                .setAuthenticator(new AppBasicAuthenticator(espDao))
                 .setAuthorizer(new AppAuthorizer())
                 .setRealm("BASIC-AUTH-REALM")
                 .buildAuthFilter()));
