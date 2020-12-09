@@ -7,9 +7,7 @@ import fr.sleafy.controllers.ESPController;
 import fr.sleafy.dao.ESPDao;
 import fr.sleafy.security.User;
 import io.dropwizard.auth.Auth;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,6 +16,9 @@ import java.util.List;
 @Path("/esp")
 @Produces(MediaType.APPLICATION_JSON)
 @Api(value="/esp")
+@SwaggerDefinition(
+        securityDefinition = @SecurityDefinition(
+                basicAuthDefinitions = @BasicAuthDefinition(key = "espAuth")))
 public class ESPResource {
 
     private final ESPController espController;
@@ -43,7 +44,7 @@ public class ESPResource {
     @GET
     @Path("/{uuid}")
     @Timed
-    @ApiOperation(value = "Retrieve ESP according to its UUID")
+    @ApiOperation(value = "Retrieve ESP according to its UUID", authorizations = @Authorization(value = "espAuth"))
     public ESP getESPfromUUID(@PathParam("uuid") String uuid, @ApiParam(hidden = true) @Auth User user) {
         return espController.getESPfromUUID(uuid);
     }
