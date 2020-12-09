@@ -2,8 +2,7 @@ package fr.sleafy.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import fr.sleafy.api.Maintener;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

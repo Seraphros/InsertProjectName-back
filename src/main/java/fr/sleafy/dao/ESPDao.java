@@ -1,10 +1,12 @@
 package fr.sleafy.dao;
 
 import fr.sleafy.api.ESP;
+import fr.sleafy.api.utils.IDSecretKey;
 import fr.sleafy.api.utils.StmtParams;
 import fr.sleafy.services.DBService;
 import lombok.extern.slf4j.Slf4j;
 
+import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +21,16 @@ public class ESPDao {
     }
 
     public ESP insertESP(ESP esp) {
-        String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, name) VALUES (NULL, ?, ?, NULL)";
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        String encodedKey = IDSecretKey.get_SHA_512_SecurePassword(esp.getSecretKey());
+
+        String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, name, secretKey) VALUES (NULL, ?, ?, NULL, ?)";
         List<StmtParams> paramsList = new ArrayList<>();
         paramsList.add(new StmtParams(1, esp.getUserId()));
         paramsList.add(new StmtParams(2, esp.getUuid()));
+        paramsList.add(new StmtParams(3, encodedKey));
         int idGenerated = dbService.insertQuery(insertESPQuery, paramsList);
 
         if (idGenerated != 0) {
@@ -75,7 +83,7 @@ public class ESPDao {
         return getESPfromUUID(uuid);
     }
 
-    private ESP buildESPfromResultSet(ResultSet set) throws Exception{
-        return new ESP(set.getInt("id"), set.getString("uuid"), set.getInt("idUser"), set.getString("name"));
+    private ESP buildESPfromResultSet(ResultSet set) throws Exception {
+        return new ESP(set.getInt("id"), set.getString("uuid"), set.getString("secretKey"), set.getInt("idUser"), set.getString("name"));
     }
 }

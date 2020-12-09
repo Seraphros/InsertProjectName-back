@@ -1,11 +1,14 @@
 package fr.sleafy.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ESP {
 
     @JsonProperty
@@ -13,6 +16,9 @@ public class ESP {
 
     @JsonProperty
     private String uuid;
+
+    @JsonIgnore
+    private String secretKey;
 
     @JsonProperty
     private int userId;
@@ -37,4 +43,12 @@ public class ESP {
         this.userId = userId;
         this.name = name;
     }
+
+    public ESP(String uuid, int userId, String secretKey) {
+        this.uuid = uuid;
+        this.userId = userId;
+        this.secretKey = secretKey;
+    }
+
+
 }
