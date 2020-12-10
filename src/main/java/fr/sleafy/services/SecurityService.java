@@ -31,5 +31,7 @@ public class SecurityService {
 
     private void initiateBasicAuthURL() {
         filter.addUrlToBasicAuth("esp/informations");
+        filter.addUrlToBasicAuth("humidity/reading");
+
     }
 }
