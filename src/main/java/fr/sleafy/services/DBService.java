@@ -101,6 +101,8 @@ public class DBService {
                 case "int":
                     stmt.setInt(param.getId(), param.getIntValue());
                     break;
+                case "float":
+                    stmt.setFloat(param.getId(), param.getFloatValue());
                 default:
                     break;
             }

@@ -13,6 +13,8 @@ public class StmtParams {
 
     private String stringValue;
 
+    private float floatValue;
+
     private int intValue;
 
     public StmtParams(int id, String value) {
@@ -25,5 +27,11 @@ public class StmtParams {
         this.id = id;
         this.type = "int";
         this.intValue = value;
+    }
+
+    public StmtParams(int id, float value) {
+        this.id = id;
+        this.type = "float";
+        this.floatValue = value;
     }
 }
