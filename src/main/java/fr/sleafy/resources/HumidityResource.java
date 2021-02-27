@@ -43,11 +43,11 @@ public class HumidityResource {
     }
 
     @GET
-    @Path("/readings")
+    @Path("/readings/{esp}")
     @Timed
     @ApiOperation(value = "Get the humidity value", authorizations = @Authorization(value = "oauth2"))
-    public Response getHumidityValue(@QueryParam("size") Long size){
-        List<Humidity> humidities = humidityController.getHumidityvalues(size);
+    public Response getHumidityValue(@QueryParam("size") Integer size, @PathParam("esp") Integer esp){
+        List<Humidity> humidities = humidityController.getHumidityvalues(size, esp);
         if(humidities == null){
             return Response.status(500).build();
         }

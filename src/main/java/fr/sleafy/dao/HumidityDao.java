@@ -34,11 +34,16 @@ public class HumidityDao {
         return humidity;
     }
 
-    public List<Humidity> getLastHumiditiesValues(Long size) {
+    public List<Humidity> getLastHumiditiesValues(Integer size, Integer esp) {
 
-        String getQuery = "SELECT id, espId, value, time FROM humidity ORDER BY time DESC LIMIT ?";
+        String getQuery = "SELECT h.id as id, h.espId as espId, h.value as value, h.time as time, e.uuid as uuid FROM humidity h " +
+                "INNER JOIN esp e ON h.espId = e.id  " +
+                "WHERE h.espId = ? " +
+                "ORDER BY h.time DESC " +
+                "LIMIT ?";
         List<StmtParams> paramsList = new ArrayList<>();
-        paramsList.add(new StmtParams(1, size));
+        paramsList.add(new StmtParams(1, esp));
+        paramsList.add(new StmtParams(2, size));
         ResultSet result = dbService.executeQuery(getQuery, paramsList);
         List<Humidity> humidities = new ArrayList<>();
         try{
@@ -46,8 +51,9 @@ public class HumidityDao {
                 Humidity humidity = new Humidity();
                 humidity.setEspId(result.getInt("espId"));
                 humidity.setValue(result.getFloat("value"));
-                humidity.setId(result.getByte("id"));
+                humidity.setId(result.getInt("id"));
                 humidity.setTime(result.getDate("time"));
+                humidity.setEspUUID(result.getString("uuid"));
                 humidities.add(humidity);
             }
         } catch (SQLException throwables) {

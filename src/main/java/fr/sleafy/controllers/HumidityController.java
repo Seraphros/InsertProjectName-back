@@ -25,8 +25,8 @@ public class HumidityController {
         humidityDao.insertReading(humidity);
     }
 
-    public List<Humidity> getHumidityvalues(@Nullable Long size) {
-        List<Humidity> humidities = humidityDao.getLastHumiditiesValues(size != null ? size: 1);
+    public List<Humidity> getHumidityvalues(@Nullable Integer size, Integer esp) {
+        List<Humidity> humidities = humidityDao.getLastHumiditiesValues(size != null ? size: 1, esp);
         return humidities;
     }
 }
