@@ -9,6 +9,8 @@ import io.swagger.annotations.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/humidity")
 @Produces(MediaType.APPLICATION_JSON)
@@ -38,5 +40,22 @@ public class HumidityResource {
     @ApiOperation(value = "Declare a new humidity reading", authorizations = @Authorization(value = "espAuth"))
     public void declareHumidityReading(Humidity reading) {
         humidityController.storeHumidityReadingFromUUID(reading);
+    }
+
+    @GET
+    @Path("/readings")
+    @Timed
+    @ApiOperation(value = "Get the humidity value", authorizations = @Authorization(value = "oauth2"))
+    public Response getHumidityValue(@QueryParam("size") Long size){
+        List<Humidity> humidities = humidityController.getHumidityvalues(size);
+        if(humidities == null){
+            return Response.status(500).build();
+        }
+        if(humidities.isEmpty()){
+            return Response.noContent().build();
+        }
+        else{
+            return Response.ok().entity(humidities).build();
+        }
     }
 }
