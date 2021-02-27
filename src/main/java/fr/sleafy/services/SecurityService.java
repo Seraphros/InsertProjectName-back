@@ -1,6 +1,7 @@
 package fr.sleafy.services;
 
 import de.ahus1.keycloak.dropwizard.KeycloakConfiguration;
+import fr.sleafy.api.utils.Route;
 import fr.sleafy.dao.ESPDao;
 import fr.sleafy.security.DropwizardBearerTokenFilterImpl;
 import io.dropwizard.setup.Environment;
@@ -25,13 +26,13 @@ public class SecurityService {
     }
 
     private void initiateAuthorizedURL() {
-        filter.addUrlToAuthorizedAuth("maintener");
-        filter.addUrlToAuthorizedAuth("swagger");
+        filter.addUrlToAuthorizedAuth(new Route("maintener", "GET"));
+        filter.addUrlToAuthorizedAuth(new Route("swagger", "GET"));
     }
 
     private void initiateBasicAuthURL() {
-        filter.addUrlToBasicAuth("esp/informations");
-        filter.addUrlToBasicAuth("humidity/reading");
+        filter.addUrlToBasicAuth(new Route("esp/informations", "GET"));
+        filter.addUrlToBasicAuth(new Route("humidity/reading", "POST"));
 
     }
 }

@@ -2,6 +2,7 @@ package fr.sleafy.security;
 
 import fr.sleafy.api.ESP;
 import fr.sleafy.api.utils.IDSecretKey;
+import fr.sleafy.api.utils.Route;
 import fr.sleafy.dao.ESPDao;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.adapters.AdapterDeploymentContext;
@@ -27,8 +28,8 @@ import java.util.List;
 @Priority(Priorities.AUTHENTICATION)
 public class DropwizardBearerTokenFilterImpl extends JaxrsBearerTokenFilterImpl {
 
-    public final List<String> urlAuthorized;
-    public final List<String> urlBasic;
+    public final List<Route> urlAuthorized;
+    public final List<Route> urlBasic;
     private final ESPDao espDao;
 
     public DropwizardBearerTokenFilterImpl(KeycloakDeployment keycloakDeployment, ESPDao espDao) {
@@ -47,13 +48,13 @@ public class DropwizardBearerTokenFilterImpl extends JaxrsBearerTokenFilterImpl 
         JaxrsHttpFacade facade = new JaxrsHttpFacade(request, securityContext);
         boolean basicAuth = false;
         boolean authorized = false;
-        for (String url : urlBasic) {
-            if (request.getUriInfo().getPath().startsWith(url)) {
+        for (Route route : urlBasic) {
+            if (request.getUriInfo().getPath().startsWith(route.url) && request.getMethod().equals(route.method)) {
                 basicAuth = true;
             }
         }
-        for (String url : urlAuthorized) {
-            if (request.getUriInfo().getPath().startsWith(url)) {
+        for (Route route : urlAuthorized) {
+            if (request.getUriInfo().getPath().startsWith(route.url) && request.getMethod().equals(route.method)) {
                 authorized = true;
             }
         }
@@ -89,11 +90,11 @@ public class DropwizardBearerTokenFilterImpl extends JaxrsBearerTokenFilterImpl 
         return false;
     }
 
-    public void addUrlToBasicAuth(String url) {
-        this.urlBasic.add(url);
+    public void addUrlToBasicAuth(Route route) {
+        this.urlBasic.add(route);
     }
 
-    public void addUrlToAuthorizedAuth(String url) {
-        this.urlAuthorized.add(url);
+    public void addUrlToAuthorizedAuth(Route route) {
+        this.urlAuthorized.add(route);
     }
 }
