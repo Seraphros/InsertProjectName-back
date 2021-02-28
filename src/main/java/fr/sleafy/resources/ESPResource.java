@@ -34,11 +34,12 @@ public class ESPResource {
         this.espController = new ESPController(espDao);
     }
 
-    @PUT
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Timed
     @ApiOperation(value = "Declare a new ESP", authorizations = @Authorization(value = "oauth2"))
-    public IDSecretKey declareESP(@QueryParam("userID") int userID) {
-        return espController.createNewESP(userID);
+    public IDSecretKey declareESP(@ApiParam(hidden = true) @Auth User user, ESP esp) {
+        return espController.createNewESP(user, esp);
     }
 
     @GET

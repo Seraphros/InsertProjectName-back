@@ -1,5 +1,6 @@
 package fr.sleafy.controllers;
 
+import de.ahus1.keycloak.dropwizard.User;
 import fr.sleafy.api.ESP;
 import fr.sleafy.api.utils.IDSecretKey;
 import fr.sleafy.dao.ESPDao;
@@ -15,8 +16,13 @@ public class ESPController {
         this.espDao = espDao;
     }
 
-    public IDSecretKey createNewESP(int userId) {
-        ESP espCreated = espDao.insertESP(new ESP(UUID.randomUUID().toString(), userId, UUID.randomUUID().toString()));
+    public IDSecretKey createNewESP(User user, ESP esp) {
+        ESP espInit = new ESP();
+        espInit.setName(esp.getName());
+        espInit.setUser(user.getName());
+        espInit.setUuid(UUID.randomUUID().toString());
+        espInit.setSecretKey(UUID.randomUUID().toString());
+        ESP espCreated = espDao.insertESP(espInit);
         return new IDSecretKey(espCreated.getId(), espCreated.getUuid(), espCreated.getSecretKey());
     }
 

@@ -26,11 +26,12 @@ public class ESPDao {
         random.nextBytes(salt);
         String encodedKey = IDSecretKey.get_SHA_512_SecurePassword(esp.getSecretKey());
 
-        String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, name, secretKey) VALUES (NULL, ?, ?, NULL, ?)";
+        String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, name, secretKey) VALUES (NULL, ?, ?, ?, ?)";
         List<StmtParams> paramsList = new ArrayList<>();
-        paramsList.add(new StmtParams(1, esp.getUserId()));
+        paramsList.add(new StmtParams(1, esp.getUser()));
         paramsList.add(new StmtParams(2, esp.getUuid()));
-        paramsList.add(new StmtParams(3, encodedKey));
+        paramsList.add(new StmtParams(3, esp.getName()));
+        paramsList.add(new StmtParams(4, encodedKey));
         int idGenerated = dbService.insertQuery(insertESPQuery, paramsList);
 
         if (idGenerated != 0) {
@@ -84,6 +85,6 @@ public class ESPDao {
     }
 
     private ESP buildESPfromResultSet(ResultSet set) throws Exception {
-        return new ESP(set.getInt("id"), set.getString("uuid"), set.getString("secretKey"), set.getInt("idUser"), set.getString("name"));
+        return new ESP(set.getInt("id"), set.getString("uuid"), set.getString("secretKey"), set.getString("user"), set.getString("name"));
     }
 }
