@@ -50,5 +50,9 @@ public class ESP {
         this.secretKey = secretKey;
     }
 
+    public ESP(String test) {
+
+    }
+
 
 }

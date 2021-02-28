@@ -7,6 +7,7 @@ import fr.sleafy.resources.HumidityResource;
 import fr.sleafy.resources.MaintenerResource;
 import fr.sleafy.services.DBService;
 import fr.sleafy.services.SecurityService;
+import fr.sleafy.services.UserService;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -40,11 +41,12 @@ public class SleafyBackApplication extends Application<SleafyBackConfiguration> 
         DBService dbService = new DBService(configuration.getDatabase());
         ESPDao espDao = new ESPDao(dbService);
         HumidityDao humidityDao = new HumidityDao(dbService);
+        UserService userService = new UserService(configuration.getKeycloakRSAPublicKey());
 
         SecurityService securityService = new SecurityService(configuration.getKeycloakConfiguration(), espDao, environment);
 
         final MaintenerResource maintenerResource = new MaintenerResource(configuration.getMaintenedBy());
-        final ESPResource espResource = new ESPResource(espDao);
+        final ESPResource espResource = new ESPResource(espDao, userService);
         final HumidityResource humidityResource = new HumidityResource(espDao, humidityDao);
 
         environment.jersey().register(maintenerResource);
