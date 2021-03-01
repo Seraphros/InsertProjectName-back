@@ -36,4 +36,8 @@ public class SleafyBackConfiguration extends Configuration {
     @Valid
     @NotNull
     private OAuth2SecurityConfiguration oAuth2SecurityConfiguration;
+
+    @JsonProperty("keycloakRSAPublicKey")
+    @NotNull
+    private String keycloakRSAPublicKey;
 }
