@@ -12,11 +12,14 @@ public class ESPController {
     private final ESPDao espDao;
 
     public ESPController(ESPDao espDao) {
+
         this.espDao = espDao;
     }
 
-    public IDSecretKey createNewESP(int userId) {
-        ESP espCreated = espDao.insertESP(new ESP(UUID.randomUUID().toString(), userId, UUID.randomUUID().toString()));
+    public IDSecretKey createNewESP(ESP espInput, String user) {
+        ESP esp = espInput;
+        esp.setUser(user);
+        ESP espCreated = espDao.insertESP(esp);
         return new IDSecretKey(espCreated.getId(), espCreated.getUuid(), espCreated.getSecretKey());
     }
 

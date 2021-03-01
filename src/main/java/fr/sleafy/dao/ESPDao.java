@@ -28,7 +28,7 @@ public class ESPDao {
 
         String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, name, secretKey) VALUES (NULL, ?, ?, NULL, ?)";
         List<StmtParams> paramsList = new ArrayList<>();
-        paramsList.add(new StmtParams(1, esp.getUserId()));
+        paramsList.add(new StmtParams(1, esp.getUser()));
         paramsList.add(new StmtParams(2, esp.getUuid()));
         paramsList.add(new StmtParams(3, encodedKey));
         int idGenerated = dbService.insertQuery(insertESPQuery, paramsList);
@@ -84,6 +84,6 @@ public class ESPDao {
     }
 
     private ESP buildESPfromResultSet(ResultSet set) throws Exception {
-        return new ESP(set.getInt("id"), set.getString("uuid"), set.getString("secretKey"), set.getInt("idUser"), set.getString("name"));
+        return new ESP(set.getInt("id"), set.getString("uuid"), set.getString("secretKey"), set.getString("user"), set.getString("name"));
     }
 }

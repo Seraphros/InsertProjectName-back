@@ -21,32 +21,32 @@ public class ESP {
     private String secretKey;
 
     @JsonProperty
-    private int userId;
+    private String user;
 
     @JsonProperty
     private String name;
 
-    public ESP(String uuid, int userId) {
+    public ESP(String uuid, String userId) {
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
     }
 
-    public ESP(int id, String uuid, int userId) {
+    public ESP(int id, String uuid, String userId) {
         this.id = id;
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
     }
 
-    public ESP(int id, String uuid, int userId, String name) {
+    public ESP(int id, String uuid, String userId, String name) {
         this.id = id;
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
         this.name = name;
     }
 
-    public ESP(String uuid, int userId, String secretKey) {
+    public ESP(String uuid, String userId, String secretKey) {
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
         this.secretKey = secretKey;
     }
 

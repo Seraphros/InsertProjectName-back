@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Slf4j
@@ -42,8 +43,14 @@ public class ESPResource {
     @POST
     @Timed
     @ApiOperation(value = "Declare a new ESP", authorizations = @Authorization(value = "oauth2"))
-    public IDSecretKey declareESP(ESP esp) {
-        return espController.createNewESP(0);
+    public Response declareESP(ESP esp, @ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
+        String user = this.userService.retrieveUserNameFromHeader(authString);
+        if(user == null){
+            return Response.status(401).build();
+        }else{
+            return Response.ok(espController.createNewESP(esp, user)).build();
+        }
+
     }
 
     @GET
