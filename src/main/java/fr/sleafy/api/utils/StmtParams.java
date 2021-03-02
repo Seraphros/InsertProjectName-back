@@ -17,6 +17,8 @@ public class StmtParams {
 
     private int intValue;
 
+    private boolean boolValue;
+
     public StmtParams(int id, String value) {
         this.id = id;
         this.type = "string";
@@ -33,5 +35,10 @@ public class StmtParams {
         this.id = id;
         this.type = "float";
         this.floatValue = value;
+    }
+    public StmtParams(int id, boolean value) {
+        this.id = id;
+        this.type = "boolean";
+        this.boolValue = value;
     }
 }

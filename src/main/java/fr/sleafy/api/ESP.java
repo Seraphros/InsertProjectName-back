@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ESP {
 
     @JsonProperty
@@ -21,32 +23,54 @@ public class ESP {
     private String secretKey;
 
     @JsonProperty
-    private int userId;
+    private String user;
 
     @JsonProperty
     private String name;
 
-    public ESP(String uuid, int userId) {
+    @JsonProperty
+    private Boolean humiditySensor = false;
+
+    @JsonProperty
+    private Boolean heatSensor = false;
+
+    @JsonProperty
+    private Boolean hygrometry = false;
+
+    @JsonProperty
+    private Boolean watering = false;
+
+    @JsonProperty
+    private int wateringFrequency = 0;
+
+    @JsonProperty
+    private int wateringDuration = 10;
+
+    @JsonProperty
+    private int sleepTime = 60;
+
+
+    public ESP(String uuid, String userId) {
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
     }
 
-    public ESP(int id, String uuid, int userId) {
+    public ESP(int id, String uuid, String userId) {
         this.id = id;
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
     }
 
-    public ESP(int id, String uuid, int userId, String name) {
+    public ESP(int id, String uuid, String userId, String name) {
         this.id = id;
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
         this.name = name;
     }
 
-    public ESP(String uuid, int userId, String secretKey) {
+    public ESP(String uuid, String userId, String secretKey) {
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = userId;
         this.secretKey = secretKey;
     }
 

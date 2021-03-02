@@ -75,12 +75,14 @@ public class DBService {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         return generatedKeys.getInt(1);
-                    }
-                    else {
+                    } else {
                         return 0;
                     }
                 }
-            } catch (Exception e) {
+            } catch (SQLIntegrityConstraintViolationException e ){
+                log.error("Constraint violation : {}", e.getMessage());
+                return 0;
+            }catch (Exception e) {
                 log.error("Unable to execute query : " + e);
                 return 0;
             }
@@ -103,6 +105,9 @@ public class DBService {
                     break;
                 case "float":
                     stmt.setFloat(param.getId(), param.getFloatValue());
+                    break;
+                case "boolean":
+                    stmt.setBoolean(param.getId(), param.isBoolValue());
                 default:
                     break;
             }

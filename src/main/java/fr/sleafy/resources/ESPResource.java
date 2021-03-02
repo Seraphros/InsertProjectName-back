@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Slf4j
@@ -42,16 +43,34 @@ public class ESPResource {
     @POST
     @Timed
     @ApiOperation(value = "Declare a new ESP", authorizations = @Authorization(value = "oauth2"))
-    public IDSecretKey declareESP(ESP esp) {
-        return espController.createNewESP(0);
+    public Response declareESP(ESP esp, @ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
+        String user = this.userService.retrieveUserNameFromHeader(authString);
+        if(user == null){
+            return Response.status(401).build();
+        }else{
+            IDSecretKey secretKey = espController.createNewESP(esp, user);
+            if(secretKey == null){
+                return Response.status(400).build();
+            }
+            return Response.status(201).entity(secretKey).build();
+        }
     }
 
     @GET
     @Timed
     @ApiOperation(value = "Get all ESPs according to the user", authorizations = @Authorization(value = "oauth2"))
-    public List<ESP> getUsersESP(@ApiParam(hidden = true) @HeaderParam("Authorization") String authString, @QueryParam("userID") int userID) {
-        log.info(this.userService.retrieveUserNameFromHeader(authString));
-        return espController.getUsersESP(userID);
+    public Response getUsersESP(@ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
+        String user = this.userService.retrieveUserNameFromHeader(authString);
+        List<ESP> espList = espController.getUsersESP(user);
+        if(espList == null){
+            return Response.serverError().build();
+        }
+        else if(espList.isEmpty()){
+            return Response.noContent().build();
+        }
+        else{
+            return Response.ok(espList).build();
+        }
     }
 
     @GET
