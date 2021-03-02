@@ -56,6 +56,37 @@ public class ESPResource {
         }
     }
 
+    @PUT
+    @Timed
+    @ApiOperation(value = "Update ESP value", authorizations = @Authorization(value = "oauth2"))
+    public Response updateESP(ESP esp, @ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
+        String user = this.userService.retrieveUserNameFromHeader(authString);
+        if(user == null){
+            return Response.status(401).build();
+        }else{
+            Boolean result = espController.updateEsp(esp, user);
+            if (Boolean.FALSE.equals(result)){
+                return Response.status(400).build();
+            }
+            else{
+                return Response.status(201).build();
+            }
+        }
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Timed
+    @ApiOperation(value = "Declare a new ESP", authorizations = @Authorization(value = "oauth2"))
+    public Response updateESP(@PathParam("id") Integer id, @ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
+        String user = this.userService.retrieveUserNameFromHeader(authString);
+        if(user == null){
+            return Response.status(401).build();
+        }else{
+            return espController.deleteEsp(id, user) ? Response.accepted().build() : Response.status(400).build();
+        }
+    }
+
     @GET
     @Timed
     @ApiOperation(value = "Get all ESPs according to the user", authorizations = @Authorization(value = "oauth2"))
