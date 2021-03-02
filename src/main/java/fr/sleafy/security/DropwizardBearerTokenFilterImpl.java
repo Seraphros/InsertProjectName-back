@@ -48,14 +48,19 @@ public class DropwizardBearerTokenFilterImpl extends JaxrsBearerTokenFilterImpl 
         JaxrsHttpFacade facade = new JaxrsHttpFacade(request, securityContext);
         boolean basicAuth = false;
         boolean authorized = false;
-        for (Route route : urlBasic) {
-            if (request.getUriInfo().getPath().startsWith(route.url) && request.getMethod().equals(route.method)) {
-                basicAuth = true;
+
+        if (request.getMethod().equals("OPTIONS")) {
+            authorized = true;
+        } else {
+            for (Route route : urlBasic) {
+                if (request.getUriInfo().getPath().startsWith(route.url) && request.getMethod().equals(route.method)) {
+                    basicAuth = true;
+                }
             }
-        }
-        for (Route route : urlAuthorized) {
-            if (request.getUriInfo().getPath().startsWith(route.url) && request.getMethod().equals(route.method)) {
-                authorized = true;
+            for (Route route : urlAuthorized) {
+                if (request.getUriInfo().getPath().startsWith(route.url) && request.getMethod().equals(route.method)) {
+                    authorized = true;
+                }
             }
         }
         if (!authorized) {
