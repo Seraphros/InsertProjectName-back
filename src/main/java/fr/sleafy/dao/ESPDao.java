@@ -26,7 +26,8 @@ public class ESPDao {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
-        String encodedKey = IDSecretKey.get_SHA_512_SecurePassword(UUID.randomUUID().toString());
+        String secretKey = UUID.randomUUID().toString();
+        String encodedKey = IDSecretKey.get_SHA_512_SecurePassword(secretKey);
 
         String insertESPQuery = "INSERT INTO esp (id, user, uuid, secretKey, name, humi_sensor, heat_sensor, hygrometry, watering, watering_frequency, watering_duration, sleep_time) " +
                 "VALUES (NULL, ?, ?, ?, ?, ? , ? , ? , ? , ?, ? , ?)";
@@ -48,7 +49,9 @@ public class ESPDao {
 
         if (idGenerated != 0) {
             esp.setId(idGenerated);
-            return getESPfromUUID(uuid);
+            ESP espGenerated = getESPfromUUID(uuid);
+            espGenerated.setSecretKey(secretKey);
+            return espGenerated;
         }
 
         return null;
