@@ -103,6 +103,9 @@ public class DBService {
                     break;
                 case "float":
                     stmt.setFloat(param.getId(), param.getFloatValue());
+                    break;
+                case "boolean":
+                    stmt.setBoolean(param.getId(), param.isBoolValue());
                 default:
                     break;
             }

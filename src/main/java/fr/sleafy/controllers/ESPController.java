@@ -23,8 +23,8 @@ public class ESPController {
         return new IDSecretKey(espCreated.getId(), espCreated.getUuid(), espCreated.getSecretKey());
     }
 
-    public List<ESP> getUsersESP(int userId) {
-        return espDao.getESPfromUser(userId);
+    public List<ESP> getUsersESP(String user) {
+        return espDao.getESPfromUser(user);
     }
 
     public ESP getESPfromUUID(String uuid) {

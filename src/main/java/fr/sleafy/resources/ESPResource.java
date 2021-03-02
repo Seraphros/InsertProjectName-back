@@ -56,9 +56,18 @@ public class ESPResource {
     @GET
     @Timed
     @ApiOperation(value = "Get all ESPs according to the user", authorizations = @Authorization(value = "oauth2"))
-    public List<ESP> getUsersESP(@ApiParam(hidden = true) @HeaderParam("Authorization") String authString, @QueryParam("userID") int userID) {
-        log.info(this.userService.retrieveUserNameFromHeader(authString));
-        return espController.getUsersESP(userID);
+    public Response getUsersESP(@ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
+        String user = this.userService.retrieveUserNameFromHeader(authString);
+        List<ESP> espList = espController.getUsersESP(user);
+        if(espList == null){
+            return Response.serverError().build();
+        }
+        else if(espList.isEmpty()){
+            return Response.noContent().build();
+        }
+        else{
+            return Response.ok(espList).build();
+        }
     }
 
     @GET

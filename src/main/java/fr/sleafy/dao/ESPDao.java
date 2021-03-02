@@ -6,10 +6,12 @@ import fr.sleafy.api.utils.StmtParams;
 import fr.sleafy.services.DBService;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.GenericDeclaration;
 import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 public class ESPDao {
@@ -26,11 +28,20 @@ public class ESPDao {
         random.nextBytes(salt);
         String encodedKey = IDSecretKey.get_SHA_512_SecurePassword(esp.getSecretKey());
 
-        String insertESPQuery = "INSERT INTO esp (id, idUser, uuid, name, secretKey) VALUES (NULL, ?, ?, NULL, ?)";
+        String insertESPQuery = "INSERT INTO esp (id, user, uuid, secretKey, name, humi_sensor, heat_sensor, hygometrie, watering, watering_frequency, watering_duration, sleep_time) " +
+                "VALUES (NULL, ?, ?, ?, ?, ? , ? , ? , ? , ?, ? , ?)";
         List<StmtParams> paramsList = new ArrayList<>();
         paramsList.add(new StmtParams(1, esp.getUser()));
-        paramsList.add(new StmtParams(2, esp.getUuid()));
+        paramsList.add(new StmtParams(2, UUID.randomUUID().toString()));
         paramsList.add(new StmtParams(3, encodedKey));
+        paramsList.add(new StmtParams(4, esp.getName()));
+        paramsList.add(new StmtParams(5, esp.getHumiditySensor()));
+        paramsList.add(new StmtParams(6, esp.getHeatSensor()));
+        paramsList.add(new StmtParams(7, esp.getHygometrie()));
+        paramsList.add(new StmtParams(8, esp.getWatering()));
+        paramsList.add(new StmtParams(9, esp.getWateringFrequency()));
+        paramsList.add(new StmtParams(10, esp.getWateringDuration()));
+        paramsList.add(new StmtParams(11, esp.getSleepTime()));
         int idGenerated = dbService.insertQuery(insertESPQuery, paramsList);
 
         if (idGenerated != 0) {
@@ -40,11 +51,11 @@ public class ESPDao {
         return esp;
     }
 
-    public List<ESP> getESPfromUser(int userID) {
+    public List<ESP> getESPfromUser(String user) {
         List<ESP> espList = new ArrayList<>();
-        String getUsersESPQuery = "SELECT * from esp WHERE idUser = ?";
+        String getUsersESPQuery = "SELECT * from esp WHERE user = ?";
         List<StmtParams> paramsList = new ArrayList<>();
-        paramsList.add(new StmtParams(1, userID));
+        paramsList.add(new StmtParams(1, user));
         ResultSet set = dbService.executeQuery(getUsersESPQuery, paramsList);
         try {
             while (set.next()) {
@@ -52,8 +63,8 @@ public class ESPDao {
             }
         } catch (Exception e) {
             log.error("Unable to read resultset :" + e);
+            return null;
         }
-
         return espList;
     }
 
@@ -84,6 +95,19 @@ public class ESPDao {
     }
 
     private ESP buildESPfromResultSet(ResultSet set) throws Exception {
-        return new ESP(set.getInt("id"), set.getString("uuid"), set.getString("secretKey"), set.getString("user"), set.getString("name"));
+        ESP esp = new ESP();
+        esp.setId(set.getInt("id"));
+        esp.setUser(set.getString("user"));
+        esp.setUuid(set.getString("uuid"));
+        esp.setSecretKey(set.getString("secretKey"));
+        esp.setName(set.getString("name"));
+        esp.setHumiditySensor(set.getBoolean("humi_sensor"));
+        esp.setHeatSensor(set.getBoolean("heat_sensor"));
+        esp.setHygometrie(set.getInt("hygometrie"));
+        esp.setWatering(set.getBoolean("watering"));
+        esp.setWateringFrequency(set.getInt("watering_frequency"));
+        esp.setWateringDuration(set.getInt("watering_duration"));
+        esp.setSleepTime(set.getInt("sleep_time"));
+        return esp;
     }
 }
