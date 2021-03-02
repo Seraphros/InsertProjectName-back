@@ -90,6 +90,22 @@ public class ESPDao {
         return null;
     }
 
+    public ESP getEspFromId(int id) {
+        String getUsersESPQuery = "SELECT * from esp WHERE id = ?";
+        List<StmtParams> paramsList = new ArrayList<>();
+        paramsList.add(new StmtParams(1, id));
+        ResultSet set = dbService.executeQuery(getUsersESPQuery, paramsList);
+        try {
+            if (set.next()) {
+                return buildESPfromResultSet(set);
+            }
+        } catch (Exception e) {
+            log.error("Unable to read resultset :" + e);
+        }
+
+        return null;
+    }
+
     public ESP setESPName(String uuid, String name) {
         ESP espToChange = getESPfromUUID(uuid);
         String setNameESPQuery = "UPDATE esp SET name = ? WHERE esp.id = ?";
@@ -114,6 +130,44 @@ public class ESPDao {
         esp.setWateringFrequency(set.getInt("watering_frequency"));
         esp.setWateringDuration(set.getInt("watering_duration"));
         esp.setSleepTime(set.getInt("sleep_time"));
+        esp.setSecretKey(set.getString("secretKey"));
         return esp;
+    }
+
+    public Boolean updateEsp(ESP espInput) {
+        String updateQuery = "UPDATE esp " +
+                "SET user = ?," +
+                "uuid = ?," +
+                "name = ?," +
+                "humi_sensor = ?," +
+                "heat_sensor = ?," +
+                "hygrometry = ?," +
+                "watering = ?," +
+                "watering_frequency = ?," +
+                "watering_duration = ?," +
+                "sleep_time = ? " +
+                "WHERE id = ?";
+        List<StmtParams> paramsList = new ArrayList<>();
+        paramsList.add(new StmtParams(1, espInput.getUser()));
+        paramsList.add(new StmtParams(2, espInput.getUuid()));
+        paramsList.add(new StmtParams(3, espInput.getName()));
+        paramsList.add(new StmtParams(4, espInput.getHumiditySensor()));
+        paramsList.add(new StmtParams(5, espInput.getHeatSensor()));
+        paramsList.add(new StmtParams(6, espInput.getHygrometry()));
+        paramsList.add(new StmtParams(7, espInput.getWatering()));
+        paramsList.add(new StmtParams(8, espInput.getWateringFrequency()));
+        paramsList.add(new StmtParams(9, espInput.getWateringDuration()));
+        paramsList.add(new StmtParams(10, espInput.getSleepTime()));
+        paramsList.add(new StmtParams(11, espInput.getId()));
+        dbService.executeQuery(updateQuery, paramsList);
+
+        return true;
+    }
+
+    public void deleteEspFromId(Integer id) {
+        String deleteQuery = "DELETE FROM esp where id = ? ";
+        List<StmtParams> paramsList = new ArrayList<>();
+        paramsList.add(new StmtParams(1, id));
+        dbService.executeQuery(deleteQuery, paramsList);
     }
 }
