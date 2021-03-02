@@ -77,13 +77,30 @@ public class ESPResource {
     @DELETE
     @Path("/{id}")
     @Timed
-    @ApiOperation(value = "Declare a new ESP", authorizations = @Authorization(value = "oauth2"))
+    @ApiOperation(value = "Delete an ESP", authorizations = @Authorization(value = "oauth2"))
     public Response updateESP(@PathParam("id") Integer id, @ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
         String user = this.userService.retrieveUserNameFromHeader(authString);
         if(user == null){
             return Response.status(401).build();
         }else{
             return espController.deleteEsp(id, user) ? Response.accepted().build() : Response.status(400).build();
+        }
+    }
+
+    @PUT
+    @Path("/{id}/reset")
+    @Timed
+    @ApiOperation(value = "Reset the secret Key", authorizations = @Authorization(value = "oauth2"))
+    public Response resetSecret(@PathParam("id") Integer id, @ApiParam(hidden = true) @HeaderParam("Authorization") String authString) {
+        String user = this.userService.retrieveUserNameFromHeader(authString);
+        if(user == null){
+            return Response.status(401).build();
+        }else{
+            IDSecretKey secretKey = espController.resetSecretKey(id, user);
+            if(secretKey != null){
+                return Response.status(201).entity(secretKey).build();
+            }
+            return Response.status(400).build();
         }
     }
 
