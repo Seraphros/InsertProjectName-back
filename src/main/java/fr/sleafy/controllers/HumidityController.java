@@ -19,13 +19,13 @@ public class HumidityController {
         this.humidityDao = humidityDao;
     }
 
-    public void storeHumidityReadingFromUUID(Humidity humidity) {
+    public Humidity storeHumidityReadingFromUUID(Humidity humidity) {
         ESP associatedESP = espDao.getESPfromUUID(humidity.getEspUUID());
         humidity.setEspId(associatedESP.getId());
-        humidityDao.insertReading(humidity);
+        return humidityDao.insertReading(humidity);
     }
 
-    public List<Humidity> getHumidityvalues(@Nullable Integer size, Integer esp) {
+    public List<Humidity> getHumidityValues(@Nullable Integer size, Integer esp) {
         List<Humidity> humidities = humidityDao.getLastHumiditiesValues(size != null ? size: 1, esp);
         return humidities;
     }

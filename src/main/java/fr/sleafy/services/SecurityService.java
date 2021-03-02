@@ -33,6 +33,7 @@ public class SecurityService {
     private void initiateBasicAuthURL() {
         filter.addUrlToBasicAuth(new Route("esp/informations", "GET"));
         filter.addUrlToBasicAuth(new Route("humidity/reading", "POST"));
+        filter.addUrlToBasicAuth(new Route("temperature/reading", "POST"));
 
     }
 }
