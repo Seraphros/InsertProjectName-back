@@ -59,4 +59,15 @@ public class ESPController {
         }
         return false;
     }
+
+    public IDSecretKey resetSecretKey(Integer id, String user) {
+        ESP espFound = espDao.getEspFromId(id);
+        if(espFound != null) {
+            if(espFound.getUser().equals(user)){
+               ESP espAfter = espDao.updateSecretKeyForEsp(espFound);
+               return new IDSecretKey(espAfter.getId(), espAfter.getUuid(), espAfter.getSecretKey());
+            }
+        }
+        return null;
+    }
 }

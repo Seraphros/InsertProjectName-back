@@ -170,4 +170,18 @@ public class ESPDao {
         paramsList.add(new StmtParams(1, id));
         dbService.executeQuery(deleteQuery, paramsList);
     }
+
+    public ESP updateSecretKeyForEsp(ESP esp) {
+        String secret = UUID.randomUUID().toString();
+        String encodedKey = IDSecretKey.get_SHA_512_SecurePassword(secret);
+        String updateQuery = "UPDATE esp " +
+                "SET secretKey = ? " +
+                "WHERE id = ?";
+        List<StmtParams> paramsList = new ArrayList<>();
+        paramsList.add(new StmtParams(1, encodedKey));
+        paramsList.add(new StmtParams(2, esp.getId()));
+        int idGenerated = dbService.insertQuery(updateQuery, paramsList);
+        esp.setSecretKey(secret);
+        return esp;
+    }
 }
