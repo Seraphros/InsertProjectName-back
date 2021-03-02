@@ -35,7 +35,7 @@ public class ESP {
     private Boolean heatSensor = false;
 
     @JsonProperty
-    private int hygometrie = 0;
+    private Boolean hygrometry = false;
 
     @JsonProperty
     private Boolean watering = false;

@@ -20,6 +20,9 @@ public class ESPController {
         ESP esp = espInput;
         esp.setUser(user);
         ESP espCreated = espDao.insertESP(esp);
+        if(espCreated ==  null){
+            return null;
+        }
         return new IDSecretKey(espCreated.getId(), espCreated.getUuid(), espCreated.getSecretKey());
     }
 

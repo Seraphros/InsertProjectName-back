@@ -48,9 +48,12 @@ public class ESPResource {
         if(user == null){
             return Response.status(401).build();
         }else{
-            return Response.ok(espController.createNewESP(esp, user)).build();
+            IDSecretKey secretKey = espController.createNewESP(esp, user);
+            if(secretKey == null){
+                return Response.status(400).build();
+            }
+            return Response.status(201).entity(secretKey).build();
         }
-
     }
 
     @GET
