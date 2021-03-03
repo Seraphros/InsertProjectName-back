@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class Humidity {
     private float value;
 
     @JsonProperty
-    private Date time;
+    private Timestamp time;
 
     public Humidity(float value) {
         this.value = value;

@@ -51,7 +51,7 @@ public class TemperatureDao {
                 temperature.setEspId(result.getInt("espId"));
                 temperature.setValue(result.getFloat("value"));
                 temperature.setId(result.getInt("id"));
-                temperature.setTime(result.getDate("time"));
+                temperature.setTime(result.getTimestamp("time"));
                 temperature.setEspUUID(result.getString("uuid"));
                 temperatures.add(temperature);
             }

@@ -89,6 +89,9 @@ public class DropwizardBearerTokenFilterImpl extends JaxrsBearerTokenFilterImpl 
             final String[] values = credentials.split(":", 2);
 
             ESP espFound = espDao.getESPfromUUID(values[0]);
+            if (espFound == null) {
+                return false;
+            }
             String encodedKey = IDSecretKey.get_SHA_512_SecurePassword(values[1]);
             return encodedKey.equals(espFound.getSecretKey());
         }

@@ -52,7 +52,7 @@ public class HumidityDao {
                 humidity.setEspId(result.getInt("espId"));
                 humidity.setValue(result.getFloat("value"));
                 humidity.setId(result.getInt("id"));
-                humidity.setTime(result.getDate("time"));
+                humidity.setTime(result.getTimestamp("time"));
                 humidity.setEspUUID(result.getString("uuid"));
                 humidities.add(humidity);
             }
