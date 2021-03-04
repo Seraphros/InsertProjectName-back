@@ -35,5 +35,6 @@ public class SecurityService {
         filter.addUrlToBasicAuth(new Route("humidity/reading", "POST"));
         filter.addUrlToBasicAuth(new Route("temperature/reading", "POST"));
 
+
     }
 }
