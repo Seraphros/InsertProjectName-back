@@ -3,10 +3,8 @@ package fr.sleafy;
 import fr.sleafy.dao.ESPDao;
 import fr.sleafy.dao.HumidityDao;
 import fr.sleafy.dao.TemperatureDao;
-import fr.sleafy.resources.ESPResource;
-import fr.sleafy.resources.HumidityResource;
-import fr.sleafy.resources.MaintenerResource;
-import fr.sleafy.resources.TemperatureResource;
+import fr.sleafy.dao.UserDao;
+import fr.sleafy.resources.*;
 import fr.sleafy.services.DBService;
 import fr.sleafy.services.SecurityService;
 import fr.sleafy.services.UserService;
@@ -60,6 +58,7 @@ public class SleafyBackApplication extends Application<SleafyBackConfiguration> 
 
         DBService dbService = new DBService(configuration.getDatabase());
         ESPDao espDao = new ESPDao(dbService);
+        UserDao userDao = new UserDao(dbService);
         HumidityDao humidityDao = new HumidityDao(dbService);
         TemperatureDao temperatureDao = new TemperatureDao(dbService);
         UserService userService = new UserService(configuration.getKeycloakRSAPublicKey());
@@ -70,11 +69,13 @@ public class SleafyBackApplication extends Application<SleafyBackConfiguration> 
         final ESPResource espResource = new ESPResource(espDao, userService);
         final HumidityResource humidityResource = new HumidityResource(espDao, humidityDao);
         final TemperatureResource temperatureResource = new TemperatureResource(espDao, temperatureDao);
+        final UserResource userResource = new UserResource(userService, userDao);
 
         environment.jersey().register(maintenerResource);
         environment.jersey().register(humidityResource);
         environment.jersey().register(temperatureResource);
         environment.jersey().register(espResource);
+        environment.jersey().register(userResource);
 
 
     }
